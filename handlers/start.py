@@ -1,6 +1,6 @@
 import sqlite3
 from aiogram import types, Dispatcher
-from config import bot
+from config import bot, MEDIA_DESTINATION
 from database import bot_db
 from keyboards import start_inline_button
 import const
@@ -15,14 +15,24 @@ async def start_button(message: types.Message):
         firstname=message.from_user.first_name
     )
 
-    await bot.send_message(
+    # await bot.send_message(
+    #     chat_id=message.from_user.id,
+    #     text=const.START_MENU_TEXT.format(
+    #         user=message.from_user.first_name
+    #     ),
+    #     reply_markup=await start_inline_button.start_keyboard()
+    # )
+    # return
+
+    with open(MEDIA_DESTINATION + "media/Bot.gif", 'rb') as ani:
+        await bot.send_animation(
         chat_id=message.from_user.id,
-        text=const.START_MENU_TEXT.format(
+        animation=ani,
+        caption=const.START_MENU_TEXT.format(
             user=message.from_user.first_name
         ),
         reply_markup=await start_inline_button.start_keyboard()
     )
-    return
 
 
 def register_start_handlers(dp: Dispatcher):
