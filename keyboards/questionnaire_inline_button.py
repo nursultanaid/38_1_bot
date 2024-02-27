@@ -19,14 +19,14 @@ async def questionnaire_keyboard():
 
 async def movie_questionnaire_keyboard():
     markup = InlineKeyboardMarkup()
-    doc_button = InlineKeyboardButton(
-        "Documentary 🤵🏻‍",
-        callback_data="documentary"
-    )
-    hor_button = InlineKeyboardButton(
-        "Horror 🧟‍️",
+    horror_button = InlineKeyboardButton(
+        "Horror 🧟‍",
         callback_data="horror"
     )
-    markup.add(doc_button)
-    markup.add(hor_button)
+    action_button = InlineKeyboardButton(
+        "Action 🥷🏻",
+        callback_data="action"
+    )
+    markup.add(horror_button)
+    markup.add(action_button)
     return markup
