@@ -10,10 +10,10 @@ async def reference_menu_keyboard():
         "Generate Link 🔗",
         callback_data="reference_link"
     )
-    link_list_button = InlineKeyboardButton(
-        "Link List 🔗📜",
-        callback_data="reference_link"
-    )
+    # link_list_button = InlineKeyboardButton(
+    #     "Link List 🔗📜",
+    #     callback_data="reference_link"
+    # )
     markup.add(link_button)
-    markup.add(link_list_button)
+    # markup.add(link_list_button)
     return markup

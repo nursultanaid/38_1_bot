@@ -15,10 +15,13 @@ class Database:
         self.connection.execute(sql_queries.CREATE_BAN_USER_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_PROFILE_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_LIKE_TABLE_QUERY)
-        self.connection.execute(sql_queries.CREATE_REFERENCE_USERS_QUERY)
+        self.connection.execute(sql_queries.CREATE_REFERENCE_TABLE_QUERY)
+        self.connection.execute(sql_queries.CREATE_SCRAPER_TABLE_QUERY)
 
         try:
             self.connection.execute(sql_queries.ALTER_USER_TABLE)
+            self.connection.execute(sql_queries.ALTER_USER_V2_TABLE)
+
         except sqlite3.OperationalError:
             pass
 
@@ -124,9 +127,9 @@ class Database:
 
     def sql_reference_menu_info(self, tg_id):
         self.cursor.row_factory = lambda cursor, row: {
-            "count": row[0],
+            "balance": row[0],
+            "count": row[1],
         }
-
         return self.cursor.execute(
             sql_queries.DOUBLE_SELECT_REFERRAL_USER_QUERY,
             (tg_id,)
@@ -149,7 +152,20 @@ class Database:
 
     def sql_insert_referral(self, owner, referral):
         self.cursor.execute(
-            sql_queries.INSERT_REFERENCE_USERS_QUERY,
+            sql_queries.INSERT_REFERENCE_QUERY,
             (None, owner, referral,)
+        )
+        self.connection.commit()
+
+    def sql_update_balance(self, owner):
+        self.cursor.execute(
+            sql_queries.UPDATE_USER_BALANCE_QUERY,
+            (owner,)
+        )
+        self.connection.commit()
+    def sql_insert_film(self, link, image, title, desc):
+        self.cursor.execute(
+            sql_queries.INSERT_SCRAPER_QUERY
+            (link, image, title, desc)
         )
         self.connection.commit()

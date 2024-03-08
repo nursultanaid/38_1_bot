@@ -20,7 +20,7 @@ class RegistrationStates(StatesGroup):
 async def registration_start(call: types.CallbackQuery):
     await bot.send_message(
         chat_id=call.from_user.id,
-        text="Your nickname: "
+        text="Ur nickname"
     )
     await RegistrationStates.nickname.set()
 
@@ -33,7 +33,7 @@ async def load_nickname(message: types.Message,
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text='Your biography: !'
+        text='Ur Biography'
     )
     await RegistrationStates.next()
 
@@ -46,9 +46,9 @@ async def load_bio(message: types.Message,
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text="How old are you?\n"
-             "(Send me only numeric text)\n"
-             "Example: 12 - 60"
+        text="Ur age\n"
+             "(ONLY NUMERIC)\n"
+             "Example: 0 or 70"
     )
     await RegistrationStates.next()
 
@@ -60,8 +60,8 @@ async def load_age(message: types.Message,
     except ValueError:
         await bot.send_message(
             chat_id=message.from_user.id,
-            text="I told you send me ONLY NUMERIC TEXT\n"
-                 "registration failed ❌\n"
+            text="I SAID ONLY NUMERIC AGE!\n"
+                 "REGISTRATION FAILED!!!❌\n"
                  "Restart registration!!!"
         )
         await state.finish()
@@ -73,7 +73,7 @@ async def load_age(message: types.Message,
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text='Your zodiac sign: '
+        text='Ur zodiac sign'
     )
     await RegistrationStates.next()
 
@@ -86,8 +86,8 @@ async def load_zodiac_sign(message: types.Message,
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text="Send me your photo\n"
-             "only in photo format"
+        text="Your photo\n"
+             "!ONLY IN PHOTO FORMAT!"
     )
     await RegistrationStates.next()
 
@@ -122,8 +122,8 @@ async def load_photo(message: types.Message,
             )
     await bot.send_message(
         chat_id=message.from_user.id,
-        text="You registered 🎉🍷\n"
-             "Congratulations!!!"
+        text="U registered successfully!🍷\n"
+             "Mine congratulations!!!"
     )
     await state.finish()
 

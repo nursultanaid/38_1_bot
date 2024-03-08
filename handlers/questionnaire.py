@@ -29,16 +29,18 @@ async def horror_movie_answer(call: types.CallbackQuery):
     await call.message.delete()
     await bot.send_message(
         chat_id=call.from_user.id,
-        text="OHH!! Are not u afraid?"
+        text="OHH!! Are not u afraid?",
+        reply_markup = await questionnaire_inline_button.horror_questionnaire_keyboard()
     )
-
 
 async def action_movie_answer(call: types.CallbackQuery):
     await call.message.delete()
     await bot.send_message(
         chat_id=call.from_user.id,
-        text="Yeah! thats crazy!"
-        )
+        text="Yeah! thats crazy!",
+        reply_markup = await questionnaire_inline_button.action_questionnaire_keyboard()
+
+    )
 
 def register_questionnaire_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(

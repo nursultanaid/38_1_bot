@@ -5,6 +5,8 @@ from config import bot, MEDIA_DESTINATION
 from database import bot_db
 from keyboards import start_inline_button
 import const
+# from scraping.film_scraper import FilmScraper
+# from scraping.news_scraper import NewsScraper
 
 
 async def start_button(message: types.Message):
@@ -34,8 +36,13 @@ async def start_button(message: types.Message):
                 owner=owner['telegram_id'],
                 referral=message.from_user.id
             )
+            db.sql_update_balance(
+                owner=owner['telegram_id']
+            )
         except sqlite3.IntegrityError:
             pass
+
+
 
     with open(MEDIA_DESTINATION + "Bot.gif", 'rb') as ani:
         await bot.send_animation(
@@ -48,8 +55,20 @@ async def start_button(message: types.Message):
         )
 
 
+# async def start_button(message: types.Message):
+#     db = bot_db.Database()
+#     scraper = FilmScraper()
+#     films = scraper.scrape_data()
+#     for i in films[:5]:
+#         await message.answer(i['link'])
+
+
 def register_start_handlers(dp: Dispatcher):
     dp.register_message_handler(
         start_button,
         commands=['start']
     )
+    # dp.register_callback_query_handler(
+    #     latest_news_call,
+    #     lambda call: call.data == "latest_news"
+    # )

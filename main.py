@@ -7,6 +7,7 @@ from handlers import (
     registration,
     profile,
     reference,
+    scrap
 )
 from database import bot_db
 
@@ -17,11 +18,13 @@ async def on_startup(_):
 
 
 start.register_start_handlers(dp=dp)
+
 questionnaire.register_questionnaire_handlers(dp=dp)
 registration.register_registration_handlers(dp=dp)
 profile.register_profile_handler(dp=dp)
 reference.register_reference_handlers(dp=dp)
 group_actions.register_group_actions_handlers(dp=dp)
+scrap.register_scraper_handlers(dp=dp)
 
 if __name__ == "__main__":
     executor.start_polling(

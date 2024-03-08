@@ -1,4 +1,5 @@
 import sqlite3
+
 from aiogram import types, Dispatcher
 from aiogram.utils.deep_linking import _create_link
 
@@ -11,6 +12,7 @@ import const
 import os
 import binascii
 
+
 async def reference_menu_call(call: types.CallbackQuery):
     db = bot_db.Database()
     result = db.sql_reference_menu_info(
@@ -20,10 +22,12 @@ async def reference_menu_call(call: types.CallbackQuery):
     await bot.send_message(
             chat_id=call.from_user.id,
             text=const.REFERENCE_MENU_TEXT.format(
+                balance=result['balance'],
                 count=result['count'],
             ),
             reply_markup=await reference_menu_keyboard()
         )
+
 
 async def reference_link_call(call: types.CallbackQuery):
     db = bot_db.Database()
@@ -37,47 +41,16 @@ async def reference_link_call(call: types.CallbackQuery):
             link=link,
             tg_id=call.from_user.id
         )
-        print(link)
         await bot.send_message(
             chat_id=call.from_user.id,
-            text=f'Your reference new link is: {link}'
+            text=f"Here is your new link: {link}"
         )
     else:
         await bot.send_message(
             chat_id=call.from_user.id,
-            text=f'Your reference old link is: {user["link"]}'
+            text=f"Here is your old link: {user['link']}"
         )
 
-# async def reference_link_list_call(call: types.CallbackQuery):
-#     db = bot_db.Database()
-#     user = db.sql_select_user(
-#         tg_id=call.from_user.id
-#     )
-#     if not user:
-#         await bot.send_message(
-#             chat_id=call.from_user.id
-#             text
-#         )
-    # user = db.sql_select_user(
-    #     tg_id=call.from_user.id
-    # )
-    # if not user['link']:
-    #     token = binascii.hexlify(os.urandom(8)).decode()
-    #     link = await _create_link("start", payload=token)
-    #     db.sql_update_reference_link(
-    #         link=link,
-    #         tg_id=call.from_user.id
-    #     )
-    #     print(link)
-    #     await bot.send_message(
-    #         chat_id=call.from_user.id,
-    #         text=f'Your reference new link is: {link}'
-    #     )
-    # else:
-    #     await bot.send_message(
-    #         chat_id=call.from_user.id,
-    #         text=f'Your reference old link is: {user["link"]}'
-    #     )
 
 def register_reference_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(
@@ -88,8 +61,3 @@ def register_reference_handlers(dp: Dispatcher):
         reference_link_call,
         lambda call: call.data == "reference_link"
     )
-    # dp.register_callback_query_handler(
-    #     reference_link_list_call,
-    #     lambda call: call.data == "reference_link_list_call"
-    # )
-

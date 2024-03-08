@@ -2,7 +2,6 @@ import datetime
 from aiogram import types, Dispatcher
 import database.bot_db
 from config import bot, GROUP_ID
-from keyboards import questionnaire_inline_button
 from profanity_check import predict, predict_prob
 
 
@@ -14,7 +13,7 @@ async def chat_messages(message: types.Message):
             potential = db.sql_select_ban_user(
                 tg_id=message.from_user.id
             )
-            print(potential)
+
 
             if not potential:
                 db.sql_insert_ban_user(
@@ -39,8 +38,11 @@ async def chat_messages(message: types.Message):
             await bot.send_message(
                 chat_id=message.chat.id,
                 text=f'Hey!!! @{message.from_user.first_name}\n'
-                     f'Dont curse in our chat 👊🏻!!!'
+                     f'You have cursed {potential["count"]} times!\n'
+                     f'If num of cursing reaches 3 times, you will get ban!\n'
+                     f'Stop curse in our chat 👊🏻!!!'
             )
+            print(potential)
 
 
 def register_group_actions_handlers(dp: Dispatcher):
